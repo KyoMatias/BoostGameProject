@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    public bool IsSequenced;
+    public bool IsControlled;
 
+    public float Gas;
+    public float Brake;
+    [SerializeField] private string carname;
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
         
     }
