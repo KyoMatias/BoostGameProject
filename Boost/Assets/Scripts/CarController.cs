@@ -4,21 +4,68 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    //[Boolean is used as a Catch Parameter to Differentiate between NIS and Ingame Physics]
     public bool IsSequenced;
     public bool IsControlled;
 
     public float Gas;
     public float Brake;
+    public float Steer;
+    public float HP;
+    public float BHP;
+    public float slip;
+    private float speed;
+    public AnimationCurve SteerCurve;
+
+    //[Paramters for Car Physics]
+    private Rigidbody rb;
+    public WheelMeshes _wheelMeshes;
+    public WheelColliders _wheelCollider;
+
     [SerializeField] private string carname;
     // Start is called before the first frame update
+
+    [System.Serializable]
+    public class WheelMeshes 
+    {
+        public MeshRenderer FL;
+        public MeshRenderer FR;
+        public MeshRenderer BL;
+        public MeshRenderer BR;
+    }
+    [System.Serializable]
+    public class WheelColliders
+    {
+        public MeshRenderer FL;
+        public MeshRenderer FR;
+        public MeshRenderer BL;
+        public MeshRenderer BR;
+    }
+
+
+
     void Start()
     {
-        
+        CheckUserControl();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
 
     void FixedUpdate()
     {
         
+    }
+
+    public void CheckUserControl()
+    {
+        if(IsSequenced)
+        {
+            IsControlled = false;
+        }
+
+        else 
+        {
+            IsControlled = true;
+        }
     }
 }
