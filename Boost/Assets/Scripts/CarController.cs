@@ -46,6 +46,7 @@ public class CarController : MonoBehaviour
 
     void Start()
     {
+        IsSequenced = true;
         CheckUserControl();
         rb = gameObject.GetComponent<Rigidbody>();
     }
@@ -58,14 +59,11 @@ public class CarController : MonoBehaviour
 
     public void CheckUserControl()
     {
-        if(IsSequenced)
-        {
-            IsControlled = false;
-        }
+        //This Is a net to check if the user is allowed control of the vehicle physics (this is due to the model either in a cutscene)
+    }
 
-        else 
-        {
-            IsControlled = true;
-        }
+    public void ControllerOveride()
+    {
+        
     }
 }
