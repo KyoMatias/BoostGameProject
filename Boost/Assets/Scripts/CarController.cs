@@ -28,18 +28,18 @@ public class CarController : MonoBehaviour
     [System.Serializable]
     public class WheelMeshes 
     {
-        public MeshRenderer FL;
-        public MeshRenderer FR;
-        public MeshRenderer BL;
-        public MeshRenderer BR;
+        public MeshRenderer FLm;
+        public MeshRenderer FRm;
+        public MeshRenderer BLm;
+        public MeshRenderer BRm;
     }
     [System.Serializable]
     public class WheelColliders
     {
-        public MeshRenderer FL;
-        public MeshRenderer FR;
-        public MeshRenderer BL;
-        public MeshRenderer BR;
+        public WheelCollider FL;
+        public WheelCollider FR;
+        public WheelCollider BL;
+        public WheelCollider BR;
     }
 
 
@@ -54,7 +54,8 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        CheckInput();
+        GetWheelPosition();
     }
 
     public void CheckUserControl()
@@ -66,4 +67,36 @@ public class CarController : MonoBehaviour
     {
         
     }
+    public void CheckInput()
+    {
+        Gas = Input.GetAxis("Vertical");
+        float movingDirection = Vector3.Dot(transform.forward, rb.velocity);
+        ApplyGas();
+    }
+
+
+    public void ApplyGas()
+    {
+        _wheelCollider.BR.motorTorque = HP * Gas;
+        _wheelCollider.BL.motorTorque = HP * Gas;
+    }
+
+     public void GetWheelPosition()
+    {
+        UpdateWheels(_wheelCollider.FR, _wheelMeshes.FRm);
+        UpdateWheels(_wheelCollider.FL, _wheelMeshes.FLm);
+        UpdateWheels(_wheelCollider.BR, _wheelMeshes.BRm);
+        UpdateWheels(_wheelCollider.BL, _wheelMeshes.BLm);
+    }
+    public void UpdateWheels(WheelCollider col, MeshRenderer wheelMesh)
+    {
+        Quaternion rot;
+        Vector3 position;
+        col.GetWorldPose(out position, out rot);
+        rot = rot * Quaternion.Euler(new Vector3(0, 0, 0));
+        wheelMesh.transform.position = position;
+        wheelMesh.transform.rotation = rot;
+    }
+
+
 }
